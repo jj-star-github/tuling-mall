@@ -29,12 +29,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -52,7 +54,7 @@ public class EsProductServiceImpl implements EsProductService {
     private EsProductDao productDao;
     @Autowired
     private EsProductRepository productRepository;
-    @Autowired
+    @Resource
     private ElasticsearchTemplate elasticsearchTemplate;
     @Override
     public int importAll() {
@@ -220,10 +222,15 @@ public class EsProductServiceImpl implements EsProductService {
                                 .field("attrValueList.name"))));
         builder.addAggregation(aggregationBuilder);
         NativeSearchQuery searchQuery = builder.build();
-        return elasticsearchTemplate.query(searchQuery, response -> {
-            LOGGER.info("DSL:{}",searchQuery.getQuery().toString());
-            return convertProductRelatedInfo(response);
-        });
+//        return elasticsearchTemplate.searchForStream(searchQuery, response -> {
+//            LOGGER.info("DSL:{}",searchQuery.getQuery().toString());
+//            return convertProductRelatedInfo(response);
+//        });
+        for (SearchHit<SearchResponse> search : elasticsearchTemplate.search(searchQuery, SearchResponse.class)) {
+            SearchResponse content = search.getContent();
+            return convertProductRelatedInfo(content);
+        }
+        return null;
     }
 
     /**

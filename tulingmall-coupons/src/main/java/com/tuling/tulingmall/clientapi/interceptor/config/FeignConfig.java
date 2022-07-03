@@ -5,7 +5,7 @@ import feign.Logger;
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 
-/**
+/** OPen Feign 的配置
  * Created by smlz on 2020/2/2.
  */
 public class FeignConfig {

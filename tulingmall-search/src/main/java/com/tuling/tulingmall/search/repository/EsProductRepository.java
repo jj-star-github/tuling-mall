@@ -3,6 +3,7 @@ package com.tuling.tulingmall.search.repository;
 import com.tuling.tulingmall.search.domain.EsProduct;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -21,4 +22,6 @@ public interface EsProductRepository extends ElasticsearchRepository<EsProduct, 
      */
     Page<EsProduct> findByNameOrSubTitleOrKeywords(String name, String subTitle, String keywords,Pageable page);
 
+
+    Page<EsProduct> search(NativeSearchQuery searchQuery);
 }

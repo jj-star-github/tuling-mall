@@ -7,7 +7,6 @@
 		<artifactId>tuling-mall</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.tuling</groupId>
 	<artifactId>tulingmall-coupons</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tulingmall-coupons</name>
